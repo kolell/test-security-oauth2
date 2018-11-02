@@ -32,6 +32,7 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
     @Qualifier("authenticationManagerBean")
     AuthenticationManager authenticationManager;
 
+    // #################  以下配置jdbc ############
     @Autowired
     private DataSource dataSource;
 
@@ -63,18 +64,23 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
     }
 
 
+    /**
+     * 客户端详情信息在这里进行初始化
+     * 能够把客户端详情信息写死在这里或者是通过数据库来存储调取详情信息
+     */
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
 //        String finalSecret = "{bcrypt}" + new BCryptPasswordEncoder().encode("123456");
-
         clients.withClientDetails(clientDetailsService);
 
     }
 
+    /**
+     * 配置授权（authorization）以及token的访问端点和令牌服务(token services)
+     */
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
         endpoints.tokenStore(tokenStore).tokenEnhancer(jwtAccessTokenConverter()).authenticationManager(authenticationManager);
-
         // 配置tokenServices参数
         DefaultTokenServices tokenServices = new DefaultTokenServices();
         tokenServices.setTokenStore(endpoints.getTokenStore());
@@ -85,6 +91,9 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
         endpoints.tokenServices(tokenServices);
     }
 
+    /**
+     * 配置令牌端点(Token Endpoint)的安全约束
+     */
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
         // 允许表单认证

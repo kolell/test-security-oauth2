@@ -4,9 +4,9 @@ spring:
 
   datasource:
       driver-class-name: com.mysql.jdbc.Driver
-      url: jdbc:mysql://172.16.10.44:3306/spring-cloud-auth2-db?useUnicode=true&characterEncoding=utf8&characterSetResults=utf8
-      username: dev
-      password: NHdev2015
+      url: jdbc:mysql://localhost:3306/spring_security?useUnicode=true&characterEncoding=utf8&characterSetResults=utf8&useSSL=false
+      username: root
+      password: 123456
 
   jpa:
     hibernate:
@@ -14,8 +14,8 @@ spring:
     show-sql: true
 
   redis:
-    host: 172.16.10.43
-    database: 1
+    host: 192.168.1.19
+    port: 6379
 
 
 server:
@@ -25,5 +25,5 @@ eureka:
     service-url:
       defaultZone: http://localhost:8761/eureka/
 
-#logging.level.org.springframework.security: DEBUG
+logging.level.org.springframework.security: DEBUG
 
