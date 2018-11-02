@@ -66,24 +66,7 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
         String finalSecret = "{bcrypt}" + new BCryptPasswordEncoder().encode("123456");
-
         logger.info("finalSecret === " + finalSecret);
-
-        // 配置两个客户端，一个用于password认证一个用于client认证
-//        clients.inMemory().withClient("client_1")
-//                .resourceIds(Utils.RESOURCEIDS.ORDER)
-//                .authorizedGrantTypes("client_credentials", "refresh_token")
-//                .scopes("select")
-//                .authorities("oauth2")
-//                .secret(finalSecret)
-//                .and().withClient("client_2")
-//                .resourceIds(Utils.RESOURCEIDS.ORDER)
-//                .authorizedGrantTypes("password", "refresh_token")
-//                .scopes("server")
-//                .authorities("oauth2")
-//                .secret(finalSecret);
-
-
         clients.withClientDetails(clientDetailsService);
 
     }
@@ -93,15 +76,9 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
      */
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
-        // redisTokenStore
-//        endpoints.tokenStore(new MyRedisTokenStore(redisConnectionFactory))
-//                .authenticationManager(authenticationManager)
-//                .allowedTokenEndpointRequestMethods(HttpMethod.GET, HttpMethod.POST);
-
         // 存数据库
         endpoints.tokenStore(tokenStore).authenticationManager(authenticationManager)
                 .userDetailsService(userServiceDetail);
-
         // 配置tokenServices参数
         DefaultTokenServices tokenServices = new DefaultTokenServices();
         tokenServices.setTokenStore(endpoints.getTokenStore());
