@@ -8,5 +8,10 @@
     <artifactId>test-security-oauth2-demo</artifactId>
     <version>1.0-SNAPSHOT</version>
 
+    <modules>
+        <module>eureka-server</module>
+        <module>service-auth</module>
+        <module>service-hi</module>
+    </modules>
 
 </project>
